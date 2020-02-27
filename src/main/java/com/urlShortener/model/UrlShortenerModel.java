@@ -1,6 +1,7 @@
 package com.urlShortener.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class UrlShortenerModel {
 	private String shortenUrl;
 
 	@Column(name = "CREATE_TIME_STAMP")
-	private LocalDate timeStampValue;
+	private LocalDateTime timeStampValue;
 
 	public UrlShortenerModel() {
 
@@ -71,11 +72,11 @@ public class UrlShortenerModel {
 		this.shortenUrl = shortenUrl;
 	}
 
-	public LocalDate getTimeStampValue() {
+	public LocalDateTime getTimeStampValue() {
 		return timeStampValue;
 	}
 
-	public void setTimeStampValue(LocalDate timeStampValue) {
+	public void setTimeStampValue(LocalDateTime timeStampValue) {
 		this.timeStampValue = timeStampValue;
 	}
 

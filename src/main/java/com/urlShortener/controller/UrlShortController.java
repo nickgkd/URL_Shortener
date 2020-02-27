@@ -1,6 +1,9 @@
 package com.urlShortener.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +22,13 @@ public class UrlShortController {
 	UrlShortenerService urlShortenerService;
 
 	@PostMapping("/shorten")
-	public ResponseEntity<ShortUrlDto> getShortenUrl(@RequestBody OriginalUrlDto originalUrlDto) {
-		System.out.println("Inside COntoller");
+	public ResponseEntity<ShortUrlDto> getShortenUrl(@RequestBody @Valid OriginalUrlDto originalUrlDto) {
+		
+		if(null != originalUrlDto) {
 		return ResponseEntity.ok(new ShortUrlDto(urlShortenerService.shortenUrl(originalUrlDto.getOriginalUrl())));
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 	}
 
 }
