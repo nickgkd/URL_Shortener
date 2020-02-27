@@ -1,7 +1,15 @@
 package com.urlShortener.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+
+
 public class OriginalUrlDto {
 
+	
+	@NotNull
+	@NotBlank
 	private String OriginalUrl;
 
 	public OriginalUrlDto() {

@@ -1,5 +1,8 @@
 package com.urlShortener.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,30 +25,32 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	@Autowired
 	private IdConverterService idConverterService;
 	
+	
 	@Override
 	public String shortenUrl(String originalUrl) {
-		if(null != urlShortRepo.findByOriginalUrl(originalUrl)) {
-			UrlShortenerModel shortenUrl = urlShortRepo.findByOriginalUrl(originalUrl);
-			return shortenUrl.getShortenUrl();
-		}
-		else {
-		return BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(saveAndShorten(originalUrl).getShortenUrl());
-		}
-	}
+		System.out.println("original URL -> " + originalUrl);
+		  String shortUrl = saveAndShorten(originalUrl).getShortenUrl();
+		  System.out.println("Short URL is -> " + shortUrl);
+		  return shortUrl;
+      }
 	
 	
 	private UrlShortenerModel saveAndShorten(String originalUrl) {
-		UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
-       // System.out.println("Saved entity is "+ urlShortnerRepository.save(new ShortenUrl(originalUrl)));
-       // System.out.println("URL id is"+url.getId());
-        String shortenKey = idConverterService.encode(url.getId());
-        
-      //  urlShortnerRepository.findByOriginalUrl(originalUrl)originalUrl;
-        url.setShortenUrl(shortenKey);
-
+		    UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
+	        String shortenKey = idConverterService.encode(url.getId());
+	        url.setShortenUrl(BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenKey));
+	        url.setTimeStampValue(LocalDateTime.now());
+	        urlShortRepo.save(url);
+	        System.out.println("Shorten URL -> " + url.getShortenUrl());
         return url;
     }
 
+	@Override
+	public Optional<UrlShortenerModel> getOriginalUrl(String shortenUrl) {
+		return urlShortRepo.findById(idConverterService.decode(shortenUrl));
+		
+		
+	}
 	
 	
 }

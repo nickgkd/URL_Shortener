@@ -20,8 +20,14 @@ public class IdConverterServiceImpl implements IdConverterService {
 	}
 
 	@Override
-	public long decode(long num) {
-		return 0;
+	public long decode(String shortenKey) {
+		 int num = 0;
+	        for ( int i = 0; i < shortenKey.length(); i++ )
+	            num = num * BASE + POSSIBLE_ALPHABET.indexOf(shortenKey.charAt(i));
+	        return num;
+		
+		
 	}
+
 
 }
