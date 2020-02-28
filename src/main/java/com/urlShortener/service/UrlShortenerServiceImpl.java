@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.urlShortener.model.UrlShortenerModel;
 import com.urlShortener.repository.UrlShortRepository;
 import com.urlShortner.Exception.Exception;
+import com.urlShortner.Exception.InvalidUrlException;
 
 @Service
 public class UrlShortenerServiceImpl implements UrlShortenerService {
@@ -30,6 +31,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	@Override
 	public String shortenUrl(String originalUrl) {
 		if("" == originalUrl) {throw new Exception();}
+		if(originalUrl.length() > 2048) {throw new InvalidUrlException();}
 		  String shortUrl = saveAndShorten(originalUrl).getShortenUrl();
 		    return shortUrl;
       }

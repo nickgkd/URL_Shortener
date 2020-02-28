@@ -12,4 +12,8 @@ public class GlobalExceptionHandler {
 	   public ResponseEntity<Object> exception(Exception exception) {
 	      return new ResponseEntity<>("Please enter Url to shorten", HttpStatus.NOT_FOUND);
 	   }
+	@ExceptionHandler(value = InvalidUrlException.class)
+	   public ResponseEntity<Object> invalidUrlException(InvalidUrlException exception) {
+	      return new ResponseEntity<>("Invalid URL", HttpStatus.BAD_REQUEST);
+	   }
 }
