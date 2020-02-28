@@ -23,12 +23,9 @@ public class UrlShortController {
 
 	@PostMapping("/shorten")
 	public ResponseEntity<ShortUrlDto> getShortenUrl(@RequestBody @Valid OriginalUrlDto originalUrlDto) {
-		
-		if(null != originalUrlDto) {
+				
 		return ResponseEntity.ok(new ShortUrlDto(urlShortenerService.shortenUrl(originalUrlDto.getOriginalUrl())));
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
+		
 	}
 
 }

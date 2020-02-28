@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.urlShortener.model.UrlShortenerModel;
 import com.urlShortener.repository.UrlShortRepository;
+import com.urlShortner.Exception.Exception;
 
 @Service
 public class UrlShortenerServiceImpl implements UrlShortenerService {
@@ -28,22 +29,21 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	
 	@Override
 	public String shortenUrl(String originalUrl) {
-		System.out.println("original URL -> " + originalUrl);
+		if("" == originalUrl) {throw new Exception();}
 		  String shortUrl = saveAndShorten(originalUrl).getShortenUrl();
-		  System.out.println("Short URL is -> " + shortUrl);
-		  return shortUrl;
+		    return shortUrl;
       }
 	
 	
 	private UrlShortenerModel saveAndShorten(String originalUrl) {
-		    UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
-	        String shortenKey = idConverterService.encode(url.getId());
-	        url.setShortenUrl(BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenKey));
-	        url.setTimeStampValue(LocalDateTime.now());
-	        urlShortRepo.save(url);
-	        System.out.println("Shorten URL -> " + url.getShortenUrl());
-        return url;
-    }
+		UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
+		String shortenKey = idConverterService.encode(url.getId());
+		url.setShortenUrl(BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenKey));
+		url.setTimeStampValue(LocalDateTime.now());
+		urlShortRepo.save(url);
+
+		return url;
+	}
 
 	@Override
 	public Optional<UrlShortenerModel> getOriginalUrl(String shortenUrl) {
