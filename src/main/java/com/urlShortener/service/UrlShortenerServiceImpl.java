@@ -38,6 +38,10 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	
 	
 	private UrlShortenerModel saveAndShorten(String originalUrl) {
+		if(urlShortRepo.existsByOriginalUrl(originalUrl)) {
+            UrlShortenerModel originalURLExists = urlShortRepo.findByOriginalUrl(originalUrl);
+            return originalURLExists;
+        }
 		UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
 		String shortenKey = idConverterService.encode(url.getId());
 		url.setShortenUrl(BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenKey));

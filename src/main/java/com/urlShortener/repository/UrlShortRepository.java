@@ -7,5 +7,7 @@ import com.urlShortener.model.UrlShortenerModel;
 public interface UrlShortRepository extends JpaRepository<UrlShortenerModel, Long> {
 
 	UrlShortenerModel findByOriginalUrl(String originalUrl);
+
+	boolean existsByOriginalUrl(String originalUrl);
 	
 }
