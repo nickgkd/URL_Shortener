@@ -39,22 +39,25 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 	
 	private UrlShortenerModel saveAndShorten(String originalUrl) {
 		if(urlShortRepo.existsByOriginalUrl(originalUrl)) {
-            UrlShortenerModel originalURLExists = urlShortRepo.findByOriginalUrl(originalUrl);
-            return originalURLExists;
-        }
-		UrlShortenerModel url = urlShortRepo.save(new UrlShortenerModel(originalUrl));
-		String shortenKey = idConverterService.encode(url.getId());
+			UrlShortenerModel originalURLExists = urlShortRepo.findByOriginalUrl(originalUrl);
+			return originalURLExists;
+		}
+		
+		String shortenKey = idConverterService.encode();
+		UrlShortenerModel url = new UrlShortenerModel();
+		url.setOriginalUrl(originalUrl);
 		url.setShortenUrl(BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenKey));
 		url.setTimeStampValue(LocalDateTime.now());
 		urlShortRepo.save(url);
-
 		return url;
 	}
 
 	@Override
 	public Optional<UrlShortenerModel> getOriginalUrl(String shortenUrl) {
-		return urlShortRepo.findById(idConverterService.decode(shortenUrl));
 		
+				String shortenKey = BASE_URL.concat(SHORTEN_URL_PRIFIX).concat(shortenUrl);
+				
+				return urlShortRepo.findByShortenKey(shortenKey);
 		
 	}
 	

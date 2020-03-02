@@ -1,5 +1,7 @@
 package com.urlShortener.service;
 
+import java.util.Random;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,25 +11,17 @@ public class IdConverterServiceImpl implements IdConverterService {
 	private static final int BASE = POSSIBLE_ALPHABET.length();
 
 	@Override
-	public String encode(long id) {
+	public String encode() {
+		Random random = new Random();
 		StringBuilder shortenKey = new StringBuilder();
-		while (id > 0) {
-			shortenKey.insert(0, POSSIBLE_ALPHABET.charAt((int) (id % BASE)));
-			id = id / BASE;
+		for(int i=0;i<7;i++) {
+			shortenKey.append(POSSIBLE_ALPHABET.charAt(random.nextInt(BASE)));
 		}
 
 		return shortenKey.toString();
 	}
 
-	@Override
-	public long decode(String shortenKey) {
-		 int num = 0;
-	        for ( int i = 0; i < shortenKey.length(); i++ )
-	            num = num * BASE + POSSIBLE_ALPHABET.indexOf(shortenKey.charAt(i));
-	        return num;
-		
-		
-	}
+	
 
 
 }
