@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.urlShortener.service.UrlShortenerService;
 
 @RestController
-@RequestMapping("/tiny")
 public class UrlRedirectionController {
 	
 	@Autowired
