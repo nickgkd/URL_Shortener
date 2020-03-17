@@ -57,7 +57,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 		
 				String shortenKey = BASE_URL.concat(shortenUrl);
 				
-				return urlShortRepo.findByShortenKey(shortenKey);
+				return urlShortRepo.findByShortenUrl(shortenKey);
 		
 	}
 	

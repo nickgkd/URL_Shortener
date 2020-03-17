@@ -10,7 +10,7 @@ public interface UrlShortRepository extends JpaRepository<UrlShortenerModel, Lon
 
 	UrlShortenerModel findByOriginalUrl(String originalUrl);
 	Boolean existsByOriginalUrl(String originalUrl);
-	Optional<UrlShortenerModel> findByShortenKey(String shortenUrl);
+	Optional<UrlShortenerModel> findByShortenUrl(String shortenUrl);
 
 	
 }
