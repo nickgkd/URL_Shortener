@@ -1,0 +1,34 @@
+version: "3"
+services:
+  urlshort-app:
+    image: urlshort-app-image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports: 
+      - "8080:8081"
+    volumes:
+      - /data/urlshort-app
+    networks:
+      - urlshortapp-mysql-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/urlshortData?allowPublicKeyRetrieval=true&useSSL=false
+    depends_on:
+      - mysqldb  
+         
+  mysqldb:
+    image: mysql:8
+    networks:
+      - urlshortapp-mysql-network
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_DATABASE=urlshortData
+      - MYSQL_USER=root
+    ports:
+      - 3306:3306  
+    volumes:
+      - /data/mysqldb
+        
+networks:
+   urlshortapp-mysql-network:            
+  
